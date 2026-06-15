@@ -27,7 +27,7 @@ import {
   TableRow,
 } from "@/components/ui/table"
 
-export function DataTable({ columns, data }) {
+export function DataTable({ columns, data ,onDelete}) {
   const [sorting, setSorting] = useState([]);
   const [columnFilters, setColumnFilters] = useState([]);
   const [columnVisibility, setColumnVisibility] = useState({});
@@ -35,6 +35,9 @@ export function DataTable({ columns, data }) {
   const table = useReactTable({
     data,
     columns,
+    meta: {//hiya object katkhba fiha datta zayda tapsiha lcolumns w data w onDelete
+      onDelete: onDelete,
+    },
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     onSortingChange: setSorting,

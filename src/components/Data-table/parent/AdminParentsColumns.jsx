@@ -1,7 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { ArrowUpDown } from "lucide-react";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { MoreHorizontal } from "lucide-react";
+import { DataTableColumnsHeader } from "./DataTableColumnsHeader";
+import { Alertdiaglog } from "../Alertdiaglog";
 
-export const AdminParentsColumns = [
+export const AdminParentsColumns = (onDelete) => [
   {
     accessorKey: "firstname",
     header: ({ column }) => (
@@ -84,6 +88,9 @@ export const AdminParentsColumns = [
         <ArrowUpDown className="ml-2 h-4 w-4" />
       </Button>
     ),
+    cell: ({ row }) => (
+      <div>{row.getValue("email")}</div>
+    ),
   },
 
   {
@@ -96,6 +103,7 @@ export const AdminParentsColumns = [
         Updated At
         <ArrowUpDown className="ml-2 h-4 w-4" />
       </Button>
+
     ),
     cell: ({ row }) => {
       const formatted = new Date(
@@ -105,4 +113,37 @@ export const AdminParentsColumns = [
       return <div>{formatted}</div>;
     },
   },
-];
+    
+  {
+  id: "actions",
+  header: "Actions",
+  cell: ({ row}) => {
+    const { id, firstname, lastname } = row.original;
+   
+
+
+   
+
+      
+      return (
+        <>
+        <Alertdiaglog  id={id}
+        firstname={firstname}
+        lastname={lastname}
+        onDelete={onDelete}  
+        
+        />
+        <Button variant={'outline'} size={'sm'} className="ml-2">
+          Edit
+        </Button>
+       
+        </>
+        
+        
+      )
+    },
+
+  },
+ 
+]
+;

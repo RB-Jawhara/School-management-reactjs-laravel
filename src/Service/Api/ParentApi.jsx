@@ -13,6 +13,10 @@ const ParentApi = {
     return await AxiosClient.get("/parents");
 
   },
+  delete: async (id) => {
+    return await AxiosClient.delete(`/parents/${id}`);
+  } 
+
 
 };
 

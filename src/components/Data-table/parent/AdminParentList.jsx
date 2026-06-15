@@ -10,11 +10,17 @@ export default function AdminParentList() {
             setData(data.data)
         });
     }, [])
+    const handleDelete = (id) => {
+    ParentApi.delete(id).then(() => {
+        setData(data.filter((item) => item.id !== id));
+    });
+}
 
     return (
 
     <>
-    <DataTable columns={AdminParentsColumns} data={data}/>
+    <DataTable columns={AdminParentsColumns(handleDelete)} data={data}  />
     </>
     )
-    }
+}
+    
