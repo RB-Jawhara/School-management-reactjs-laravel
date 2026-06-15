@@ -3,6 +3,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "../../components/ui/ta
 import { Separator } from "../../components/ui/separator.jsx";
 import {ScrollArea, ScrollBar} from "../../components/ui/scroll-area.jsx";
 import ParentCreate from "@/components/Forms/ParentCreate.jsx";
+import AdminParentList from "../Data-table/parent/AdminParentList.jsx";
 
 //import ParentUpsertForm from "@/components/Forms/ParentUpsertForm.jsx";
 
@@ -35,7 +36,7 @@ export default function ManageParents() {
                           <h2 className="text-2xl font-semibold tracking-tight">
                             All parents
                           </h2>
-                          <ParentCreate/> 
+                          <AdminParentList /> 
                         </div>
                       </div>
                       <Separator className="my-4"/>

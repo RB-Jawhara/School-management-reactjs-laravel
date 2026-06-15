@@ -14,8 +14,8 @@ class StudentParentController extends Controller
      */
     public function index()
     {
-          $parents = StudentParent::all();
-             return StudentParentResource::collection($parents);
+         //$parents = StudentParent::all();//les variables katst3mlha ghir mara wa7da f-function, w hna katjib lina jami3 l-parents mn database
+             return StudentParentResource::collection(StudentParent::all());//hadi kat-returni collection dyal StudentParentResource, w kat-transforma jami3 l-parents li jibt mn database l-format li 3tina f-StudentParentResource
     }
 
     /**
@@ -48,6 +48,10 @@ class StudentParentController extends Controller
      */
     public function destroy(StudentParent $studentParent)
     {
-        //
-    }
+        
+       
+    $studentParent->forceDelete(); // ← bdl delete() b forceDelete()
+    return response()->json(['message' => 'Student parent deleted successfully']);
 }
+    }
+

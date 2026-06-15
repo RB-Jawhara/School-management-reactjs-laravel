@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('address', 255);
             $table->string('email', 255)->unique();
             $table->string('phone_number', 20);
+            $table->string('password')->nullable();
             $table->SoftDeletes ();  
             $table->timestamp('email_verified_at')->nullable();
             

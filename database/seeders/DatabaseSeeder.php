@@ -31,7 +31,7 @@ class DatabaseSeeder extends Seeder
         // Create specific user
        User::factory()->create([
     'name' => 'Riblaoui',
-    'email' => 'admin@example.com',
+    'email' => 'admin1@example.com',
     'password' => Hash::make('P@ssw0rd2026!'),
     'student_parent_id' => 1, 
     'blood_type' => 'O+',     
@@ -51,5 +51,8 @@ class DatabaseSeeder extends Seeder
     'password' => Hash::make('123456789'),
    
     ]);
-    }
+    
+
+$this->call(StudentParentSeeder::class);
+}
 }
