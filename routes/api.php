@@ -35,12 +35,15 @@ Route::post('/user/login', [AuthController::class, 'userLogin']);
 Route::post('/admin/login', [AuthController::class, 'adminLogin']);
 Route::post('/teacher/login', [AuthController::class, 'teacherLogin']);
 
+
 // ✅ Protected
 Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
 
 Route::middleware(['auth:sanctum,admin', 'check.admin'])->group(function () {
     Route::get('/admin', fn(Request $r) => $r->user());
-    Route::apiResource('parents', StudentParentController::class);
+   Route::apiResource('parents', StudentParentController::class, [
+    'parameters' => ['parents' => 'studentParent']// hit f controlleur dya studentParent machi parente hiya fi dart equilibre f binthom
+]);
 });
 
 Route::middleware(['auth:sanctum,teacher', 'check.teacher'])->group(function () {

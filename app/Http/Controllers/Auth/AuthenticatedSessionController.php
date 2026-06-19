@@ -9,10 +9,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 
 class AuthenticatedSessionController extends Controller
-{//hed lpage li mahkma f les utilisateurs
-    /**
-     * Handle an incoming authentication request.
-     */
+{
     public function store(LoginRequest $request):jsonResponse
 {
     // 1. Authensticate l-user (b l-email w password li shhna f LoginRequest)
@@ -39,6 +36,7 @@ $token=$user->createToken('api',['admin'])->plainTextToken;//hna kayn token li g
         'token' =>$token = $user->createToken('api',['admin'])->plainTextToken,
         'message' => 'Login Success'
     ]);
+    
 }
 
     /**

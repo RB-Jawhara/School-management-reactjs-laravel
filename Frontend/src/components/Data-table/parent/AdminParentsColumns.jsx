@@ -4,8 +4,9 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel,
 import { MoreHorizontal } from "lucide-react";
 import { DataTableColumnsHeader } from "./DataTableColumnsHeader";
 import { Alertdiaglog } from "../Alertdiaglog";
+import SheetEdite  from "../SheetEdite";
 
-export const AdminParentsColumns = (onDelete) => [
+export const AdminParentsColumns = (onDelete,onRefresh) => [
   {
     accessorKey: "firstname",
     header: ({ column }) => (
@@ -118,7 +119,7 @@ export const AdminParentsColumns = (onDelete) => [
   id: "actions",
   header: "Actions",
   cell: ({ row}) => {
-    const { id, firstname, lastname } = row.original;
+     const { id, firstname, lastname, email, phone_number, address, gender, blood_type, date_of_birth } = row.original;
    
 
 
@@ -133,10 +134,19 @@ export const AdminParentsColumns = (onDelete) => [
         onDelete={onDelete}  
         
         />
-        <Button variant={'outline'} size={'sm'} className="ml-2">
-          Edit
-        </Button>
-       
+        <SheetEdite id={id}
+        firstname={firstname}
+          lastname={lastname}
+          email={email}
+          phone_number={phone_number}
+          address={address}
+          gender={gender}
+          blood_type={blood_type}
+          date_of_birth={date_of_birth}
+          onRefresh={onRefresh}
+        
+        
+        />
         </>
         
         

@@ -23,8 +23,14 @@ class StudentParentController extends Controller
      */
    public function store(StoreStudentParentRequest $request)
 {
-    $studentParent = StudentParent::create($request->validated());
-    return new StudentParentResource($studentParent);
+    $studentParent = StudentParent::create($request->validated ());// CREE F LA DATABASE W KAYST3ML LES DONNEES LI JIBT MN FRONTEND W KAYVALIDIHA B LES REGLES LI 3TINA F StoreStudentParentRequest
+   $response= new StudentParentResource($studentParent);////HEDI KATRTB DAKCHI F MODEL W KATSIFTO LJSON (frontend) 
+  
+    return response()->json([
+        'parent' => $response,
+        'message' => 'Student parent created successfully'], 201
+    ); //hedi kadar bach tarj3 lfronyend ela chakel json 
+   
 }
 
     /**
@@ -40,7 +46,12 @@ class StudentParentController extends Controller
      */
     public function update(UpdateStudentParentRequest $request, StudentParent $studentParent)
     {
-        //
+        $studentParent->update($request->validated());
+        $response= new StudentParentResource($studentParent->fresh());//HADI KATJIB L'ETAT JADID DYAL PARENT BA3D MA UPDATE, W KATSIFTO LJSON (frontend)
+        return response()->json([
+            'parent' => $response,
+            'message' => 'Student parent updated successfully'], 200
+        );
     }
 
     /**
