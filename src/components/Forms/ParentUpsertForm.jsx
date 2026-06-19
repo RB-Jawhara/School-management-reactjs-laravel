@@ -1,9 +1,9 @@
 "use client";
 // TOAST hiya li katl3 dik prompt fiha message w katb9a tban 3la l-screen 3la wa9t m3yn, hna kanst3mloha bach n3rfo wach l-parent t-create b-najah wla la
 
-
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { toast } from "sonner";
+
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -15,7 +15,9 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { STUDENT_DASHBOARD_ROUTE } from "../../assets/router/Index.jsx";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import ParentApi from "../../../src/Service/Api/ParentApi.jsx";
+import ParentApi from "../../Service/Api/ParentApi.js";
+import { Loader } from "lucide-react";
+
 
 const formSchema = z.object({
   firstname: z.string().min(1, "Firstname is required"),
@@ -28,33 +30,75 @@ const formSchema = z.object({
   phone_number: z.string().min(1, "Phone number is required"),
 });
 
-function ParentCreate() {
+function ParentUpsertForm({values,handleSubmit,onRefresh}) {
   const navigate = useNavigate();
   const [error, setError] = useState("");
+
 
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      firstname: "", lastname: "", date_of_birth: "",
-      gender: "", blood_type: "", address: "", email: "", phone_number: "",
-    },
+      firstname: values?.firstname || "",
+      lastname: values?.lastname || "",
+      date_of_birth: values?.date_of_birth?.split(" ")[0] || "",
+      gender: values?.gender || "",
+      blood_type: values?.blood_type || "",
+      address: values?.address || "",
+      email: values?.email || "",
+      phone_number: values?.phone_number || "",}
   });
 
-  const onSubmit = async (values) => {
-    console.log("Data sent:", values);
-    await ParentApi.create(values)
-      .then(({ status, data }) => {
-        if (status === 200 || status === 201) {
-          toast.success("Parent created successfully!");
-          navigate(STUDENT_DASHBOARD_ROUTE);
-        }
-      })
-      .catch((err) => {
-        Object.entries(err.response.data.errors).forEach(([key, value]) => {
-          setError((prev) => prev + `${key}: ${value}\n`);
-        });
+ useEffect(() => {
+    if (values) {
+      form.reset({
+        firstname: values.firstname || "",
+        lastname: values.lastname || "",
+        date_of_birth: values.date_of_birth?.split(" ")[0] || "",
+        gender: values.gender || "",
+        blood_type: values.blood_type || "",
+        address: values.address || "",
+        email: values.email || "",          
+        phone_number: values.phone_number || "", 
       });
-  };
+    }
+}, [values]);
+
+const onSubmit = async (data) => {
+    try {
+        if (values?.id) {
+          console.log("id",values.id)
+          console.log("data",data)
+            
+            const { status } = await ParentApi.update(values.id, data);
+            console.log("status",status)
+            if (status === 200 || status === 201) {
+                toast.success("Parent updated successfully!");
+                onRefresh();
+                console.log("onRefresh:", onRefresh);
+            }
+        } else {
+            
+            const { status } = await ParentApi.create(data);
+            if (status === 200 || status === 201) {
+                toast.success("Parent created successfully!");
+            
+                navigate(STUDENT_DASHBOARD_ROUTE);
+
+            }
+        }
+        
+    } catch (error) {
+        console.log("Laravel errors:", error.response.data);
+          console.log("Status:", error.response?.status);
+        toast.error("An error occurred!");
+    }
+}
+const { formState: { isSubmitting } } = form;
+
+
+
+      
+  
 
   return (
     <Card className="w-full sm:max-w-md mx-auto mt-10 shadow-lg">
@@ -160,8 +204,11 @@ function ParentCreate() {
                 Reset
               </Button>
               <Button type="submit" className="flex-1">
-                Create Parent
+              {isSubmitting && <Loader className={'mx-2 my-2 animate-spin'}/>}
+              {values ? 'Update':'Create'}
+         
               </Button>
+              {/**hed isSubmitting hiya booleen wach true wla false   */}
             </div>
 
           </form>
@@ -171,4 +218,4 @@ function ParentCreate() {
   );
 }
 
-export default ParentCreate;
+export default ParentUpsertForm;

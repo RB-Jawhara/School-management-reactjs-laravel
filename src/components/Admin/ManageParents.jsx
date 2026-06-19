@@ -2,7 +2,7 @@ import {useUserContext} from "../../Context/UserContext.jsx";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "../../components/ui/tabs.jsx";
 import { Separator } from "../../components/ui/separator.jsx";
 import {ScrollArea, ScrollBar} from "../../components/ui/scroll-area.jsx";
-import ParentCreate from "@/components/Forms/ParentCreate.jsx";
+import ParentUpsertForm from "@/components/Forms/ParentUpsertForm.jsx";
 import AdminParentList from "../Data-table/parent/AdminParentList.jsx";
 
 //import ParentUpsertForm from "@/components/Forms/ParentUpsertForm.jsx";
@@ -51,7 +51,8 @@ export default function ManageParents() {
                     <TabsContent
                       value="add_parent">
                        <div className="space-y-1">
-                        {/*<ParentUpsertForm handleSubmit={(values) => ParentApi.create(values)}/>*/}
+                     
+                        <ParentUpsertForm handleSubmit={(values) => ParentApi.create(values)}/>
                       </div> 
                       <Separator className="my-4"/>
                     </TabsContent>
